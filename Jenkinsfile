@@ -19,8 +19,7 @@ pipeline {
         stage('build') {
             steps {
                 sh '''
-                sudo docker build -t new-repo .
-                
+                sudo docker build -t docker .
                 '''
             }
         }
@@ -28,7 +27,9 @@ pipeline {
             steps {
                 echo 'Uploading Docker image to S3...'
                 sh '''
-                sudo aws s3 cp /var/lib/jenkins/workspace/admin@2/my-docker-image.tar s3://jenkinssss/jenkins/my-docker-image.tar --region ap-south-1
+                sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 992382723829.dkr.ecr.ap-south-1.amazonaws.com
+                sudo docker tag docker:latest 992382723829.dkr.ecr.ap-south-1.amazonaws.com/docker:latest
+                sudo docker push 992382723829.dkr.ecr.ap-south-1.amazonaws.com/docker:latest
                 '''
             }
         }
