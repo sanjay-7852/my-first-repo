@@ -23,9 +23,9 @@ pipeline {
                 '''
             }
         }
-        stage('s3 bucket') {
+        stage('push') {
             steps {
-                echo 'Uploading Docker image to S3...'
+                echo 'Uploading Docker image to ecr service...'
                 sh '''
                 sudo aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 992382723829.dkr.ecr.ap-south-1.amazonaws.com
                 sudo docker tag docker:latest 992382723829.dkr.ecr.ap-south-1.amazonaws.com/docker:latest
